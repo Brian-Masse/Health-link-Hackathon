@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C95753F52CBB053E00ABA8DE /* UIUniversals in Frameworks */ = {isa = PBXBuildFile; productRef = C95753F42CBB053E00ABA8DE /* UIUniversals */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		C978585B2CBAD4E500737171 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C95753F52CBB053E00ABA8DE /* UIUniversals in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = "HealthLink-Hackathon";
 			packageProductDependencies = (
+				C95753F42CBB053E00ABA8DE /* UIUniversals */,
 			);
 			productName = "HealthLink-Hackathon";
 			productReference = C97858492CBAD4E100737171 /* HealthLink-Hackathon.app */;
@@ -195,6 +201,9 @@
 			);
 			mainGroup = C97858402CBAD4E000737171;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C95753F32CBB053E00ABA8DE /* XCLocalSwiftPackageReference "../Packages/UIUniversals" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C978584A2CBAD4E100737171 /* Products */;
 			projectDirPath = "";
@@ -591,6 +600,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		C95753F32CBB053E00ABA8DE /* XCLocalSwiftPackageReference "../Packages/UIUniversals" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Packages/UIUniversals;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C95753F42CBB053E00ABA8DE /* UIUniversals */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = UIUniversals;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C97858412CBAD4E100737171 /* Project object */;
 }
