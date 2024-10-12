@@ -10,9 +10,23 @@ import SwiftUI
 
 struct SocialPageView: View {
     
-    var body: some View {
-        Text("he")
-    }
     
+//    MARK: Body
+    var body: some View {
+        
+        VStack(alignment: .leading) {
+            Text("Social")
+                .font(.title)
+                .bold()
+            
+        }
+    }
+}
+
+
+
+#Preview {
+    
+    SocialPageView()
     
 }

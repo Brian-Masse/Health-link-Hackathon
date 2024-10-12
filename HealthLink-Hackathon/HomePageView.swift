@@ -9,88 +9,6 @@ import Foundation
 import SwiftUI
 import UIUniversals
 
-//MARK: Products
-let IUD = BirthControlProduct(name: "IUD", description: "Test Description")
-
-let pillA = BirthControlProduct(name: "PillA", description: "Test Description")
-let pillB = BirthControlProduct(name: "PillB", description: "Test Description")
-
-let cep = BirthControlProduct(name: "CEP", description: "Test Description")
-
-struct BirthControlProduct: Identifiable {
-    let name: String
-    let description: String
-    
-    var id: String { name }
-    
-//    measured in s
-    let frequency: Double
-    
-    init (name: String, description: String = "Test Description", frequency: Double = Constants.DayTime) {
-        self.name = name
-        self.description = description
-        self.frequency = frequency
-    }
-}
-
-
-//MARK: ContraProfile
-class ContraProfile {
-    
-    let ownerId: String = ""
-    
-    let firstName: String = "Brian"
-    let lastName: String = "Masse"
-    
-    let schedule: ContraUserSchedule
-    
-    let recommendedProducts: [BirthControlProduct] = [IUD, pillA, pillB, cep]
-    let activeProducts: [BirthControlProduct] = [pillA, pillB]
-    
-    var filteredRecommendedProducts: [BirthControlProduct] {
-        recommendedProducts.filter { product in
-            !activeProducts.contains { activeProduct in activeProduct.name == product.name }
-        }
-    }
-    
-    init( schedule: ContraUserSchedule ) {
-        self.schedule = schedule
-    }
-}
-
-
-//MARK: ContraUserSchedule
-class ContraUserSchedule {
-    let ownerId: String = ""
-    
-    let entryRecord: [ ContraEntryNode ]
-    
-    init( entryRecord: [ContraEntryNode] ) {
-        self.entryRecord = entryRecord
-    }
-    
-    func getNextEntryDate(for product: BirthControlProduct) -> Date? {
-        if let lastDate = entryRecord.filter({ node in node.product.name == product.name }).last?.date {
-            return lastDate + product.frequency
-        }
-        
-        return nil
-    }
-}
-
-//MARK: ContraEntryNode
-struct ContraEntryNode {
-    let date: Date
-    let product: BirthControlProduct
-    let notes: String
-    
-    init( date: Date = .now, product: BirthControlProduct, notes: String = "" ) {
-        self.date = date
-        self.product = product
-        self.notes = notes
-    }
-}
-
 //MARK: HomePageView
 struct HomePageView: View {
     
@@ -99,7 +17,7 @@ struct HomePageView: View {
     
 //    MARK: Product Reccomendation
     @ViewBuilder
-    private func makeProductRecommendation(_ product: BirthControlProduct, activeProduct: Bool = false) -> some View {
+    private func makeProductRecommendation(_ product: ContraProduct, activeProduct: Bool = false) -> some View {
         
         HStack {
             
@@ -148,7 +66,7 @@ struct HomePageView: View {
     
 //    MARK: Schedule
     @ViewBuilder
-    private func makeScheduleReminder(_ product: BirthControlProduct, date: Date) -> some View {
+    private func makeScheduleReminder(_ product: ContraProduct, date: Date) -> some View {
         HStack {
             
             Image(systemName: "calendar")
@@ -269,14 +187,7 @@ struct HomePageView: View {
 
 #Preview {
     
-    let schedule = ContraUserSchedule(entryRecord: [
-        .init(date: .now, product: pillA, notes: "took pills"),
-        .init(date: .now - Constants.DayTime, product: pillB, notes: "")
-    ])
-    
-    let profile = ContraProfile(schedule: schedule)
-    
-    HomePageView(profile: profile)
+    HomePageView(profile: exampleProfile)
 }
 
 

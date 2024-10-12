@@ -32,20 +32,11 @@ struct MainView: View {
     
     var body: some View {
 
-        let schedule = ContraUserSchedule(entryRecord: [
-            .init(date: .now, product: pillA, notes: "took pills"),
-            .init(date: .now - Constants.DayTime, product: pillB, notes: "")
-        ])
-        
-        let profile = ContraProfile(schedule: schedule)
-        
-        
-        
         GeometryReader { geo in
             ZStack(alignment: .bottom) {
                 TabView(selection: $currentPage) {
                 
-                    HomePageView(profile: profile)
+                    HomePageView(profile: exampleProfile)
                         .tag( MainPage.home )
                     
                     SocialPageView()
