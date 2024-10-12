@@ -14,12 +14,9 @@ import UIUniversals
 struct TabBar: View {
     @Environment(\.colorScheme) var colorScheme
     
-    @ObservedObject var viewModel: RecallCalendarViewModel = RecallCalendarViewModel.shared
-    
     @Namespace private var tabBarNamespace
     @Binding var pageSelection: MainView.MainPage
     
-    @State private var showingRecallButton: Bool = true
     @State private var showingCreateEventScreen: Bool = false
     
     private let buttonPadding: Double = 15
@@ -42,7 +39,7 @@ struct TabBar: View {
                         .universalStyledBackgrond(.accent, onForeground: true)
                 }
                 
-                RecallIcon(icon)
+                ContraIcon(icon)
                     .bold()
                     .frame(width: 20, height: 20)
                     .foregroundStyle( isActivePage ? .black : ( colorScheme == .dark ? .white : .black ) )
@@ -51,35 +48,17 @@ struct TabBar: View {
             
         } action: {
             pageSelection = page
-            
-            if page == .calendar {
-                if showingRecallButton { showingCreateEventScreen = true }
-                showingRecallButton = true
-            }
-            else { showingRecallButton = false }
         }
-    }
-
-    @ViewBuilder
-    private func makeRecallButton() -> some View {
-        makeTabBarButton(page: .calendar, icon: showingRecallButton ? "arrow.turn.left.up" : "calendar")
-            .frame(width: buttonRadius * 2, height: buttonRadius * 2 * (2/3))
-            .background {
-                RoundedRectangle(cornerRadius: 55)
-                    .foregroundStyle(.thinMaterial)
-                    .shadow(radius: 5)
-            }
     }
     
 //    MARK: Body
     var body: some View {
         HStack {
-            makeRecallButton()
+//            makeRecallButton()
             
             HStack(spacing: 0) {
-                makeTabBarButton(page: .goals, icon: "flag.checkered")
-                makeTabBarButton(page: .categories, icon: "tag")
-                makeTabBarButton(page: .data, icon: "chart.bar")
+                makeTabBarButton(page: .home, icon: "house")
+                makeTabBarButton(page: .social, icon: "message")
             }
             .padding(surroundingPadding)
             .background {
@@ -89,8 +68,5 @@ struct TabBar: View {
             }
         }
         .frame(height: (buttonRadius * 2) + (surroundingPadding * 2) )
-        .sheet(isPresented: $showingCreateEventScreen) {
-            CalendarEventCreationView.makeEventCreationView(currentDay: viewModel.currentDay)
-        }
     }
 }

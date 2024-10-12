@@ -52,6 +52,10 @@ struct MainView: View {
                         .tag( MainPage.social )
                 }
                 .animation(.easeInOut, value: currentPage)
+                
+                TabBar(pageSelection: $currentPage)
+                    .padding(.bottom, 30)
+                
             }
         }
         .universalBackground()
