@@ -21,7 +21,8 @@ struct ContraQuestionaire: View {
     private enum QuestionaireScene: Int, ContraSceneEnum {
         func getTitle() -> String {
             switch self {
-            case .splash: return "he"
+            case .splash: return ""
+            case .summary: return ""
             case .overview: return "Overview"
             case .demographics: return "Demographics"
             case .medical: return "Medical"
@@ -30,6 +31,7 @@ struct ContraQuestionaire: View {
         }
         
         case splash
+        case summary
         case overview
         case demographics
         case medical
@@ -128,6 +130,36 @@ struct ContraQuestionaire: View {
             }
     }
     
+//    MARK: Summary
+    
+    @State private var showPrivacyReport: Bool = false
+    
+    @ViewBuilder
+    private func makeSummaryScene() -> some View {
+        VStack {
+            ContraIcon("scribble")
+                .font(.largeTitle)
+                .padding(.bottom)
+            
+            Text("Personalize your recommendations")
+                .font(.title2)
+                .bold()
+            
+            Text("ContraCure is best when you provide honest and detailed information about yourself, so we'll begin by asking a few simple questions. All of this information is private and never shared with 3rd party sources for any reason.")
+                .padding(30)
+                .opacity(0.75)
+                .font(.callout)
+            
+            Spacer()
+            
+            Button("full privacy report") { showPrivacyReport = true }
+                .sheet(isPresented: $showPrivacyReport) { PrivacyReport().padding() }
+                .padding()
+        }
+        .multilineTextAlignment(.center)
+        .onAppear { sceneComplete = true }
+    }
+    
 //    MARK: makeOverviewScene
     private func checkOverviewCompletion() {
         let validBirthday = true
@@ -189,7 +221,7 @@ struct ContraQuestionaire: View {
     @ViewBuilder
     private func makeMedicalSelection() -> some View {
         ScrollView(.vertical, showsIndicators: false) {
-            VStack(alignment: .leading) {
+            LazyVStack(alignment: .leading) {
                 
                 StyledSimpleToggle(title: "Is this your first time using birth control?", isOn: $firstTimeUser)
                     .padding(.bottom)
@@ -262,6 +294,7 @@ struct ContraQuestionaire: View {
                 
                 switch activeScene {
                 case .splash: makeSplashScreen()
+                case .summary: makeSummaryScene()
                 case .overview: makeOverviewScene()
                 case .demographics: makeDemographicsScene()
                 case .medical: makeMedicalSelection()
