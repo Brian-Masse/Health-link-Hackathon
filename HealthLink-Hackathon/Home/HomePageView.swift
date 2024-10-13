@@ -188,12 +188,16 @@ struct HomePageView: View {
                 .padding(.bottom, 7)
        
             ScrollView(.vertical, showsIndicators: false) {
-                makeProductRecommendations()
-                    .padding(.bottom)
-                
-                makeSchedule()
-                
-                makeEntryRecords()
+                VStack(alignment: .leading) {
+                    makeProductRecommendations()
+                        .padding(.bottom)
+                    
+                    makeSchedule()
+                        .padding(.bottom)
+                    
+                    makeEntryRecords()
+                }
+                .padding(.bottom, 80)
             }
             
             Spacer()

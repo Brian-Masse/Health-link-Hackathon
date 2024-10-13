@@ -10,25 +10,25 @@ import SwiftUI
 import UIUniversals
 
 let schedule = ContraUserSchedule(entryRecord: [
-    .init(date: .now, product: pillA, notes: "took pills"),
-    .init(date: .now - Constants.DayTime, product: pillB, notes: "")
+    .init(date: .now, product: Yaz, notes: "Still feeling really good on day 2. I'm so glad I found a personalized solution that understand my personal context"),
+    .init(date: .now - Constants.DayTime, product: Yaz, notes: "First time taking birth control. Excited for a good experience!")
 ])
 
 func makeBirthday() -> Date {
     var comps = DateComponents()
     comps.day = 18
     comps.month = 5
-    comps.year = 2005
+    comps.year = 2004
     
     return Calendar.current.date(from: comps)!
     
 }
 
 let exampleProfile = ContraProfile(schedule: schedule,
-                                   firstName: "Brian",
-                                   lastName: "Masse",
+                                   firstName: "Anitha",
+                                   lastName: "Darcy",
                                    birthday: makeBirthday(),
-                                   height: 70,
+                                   height: 60,
                                    ethnicity: ["white"],
                                    state: "Massachusetts",
                                    firstTimeUser: true)
@@ -54,10 +54,9 @@ class ContraProfile: ObservableObject {
     
 //    IUD, pillA, pillB, cep
     let recommendedProducts: [ContraRecommendation] = [
-        .init(product: IUD, justification: "its good"),
-        .init(product: pillA, justification: "its good"),
-        .init(product: pillB, justification: "its good"),
-        .init(product: cep, justification: "its good"),
+        .init(product: pillA, justification: "This oral contraceptive contains both estrogen and progestin hormones. It prevents ovulation, thickens cervical mucus to block sperm, and thins the uterine lining."),
+        .init(product: Yaz, justification: "contains 4th gen progestin"),
+        .init(product: implant, justification: "doesn’t affect mood, highly effective"),
     ]
     @Published var activeProducts: [ContraProduct] = []
 //    [pillA, pillB]
@@ -120,7 +119,7 @@ class ContraUserSchedule {
     }
     
     func getNextEntryDate(for product: ContraProduct) -> Date? {
-        if let lastDate = entryRecord.filter({ node in node.product.name == product.name }).last?.date {
+        if let lastDate = entryRecord.filter({ node in node.product.name == product.name }).first?.date {
             return lastDate + product.frequency
         }
         

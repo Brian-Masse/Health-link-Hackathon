@@ -11,6 +11,8 @@ import UIUniversals
 
 struct ContraProductView: View {
     
+    @Environment(\.colorScheme) var colorScheme
+    
     let product: ContraProduct
     let profile: ContraProfile
     
@@ -151,6 +153,7 @@ struct ContraProductView: View {
             .clipShape(RoundedRectangle(cornerRadius: Constants.UIDefaultCornerRadius))
         }
         .padding(7)
+        .background(colorScheme == .light ? .white : .black)
     }
 }
 
