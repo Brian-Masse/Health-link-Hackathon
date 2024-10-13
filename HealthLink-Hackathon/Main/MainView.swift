@@ -36,6 +36,8 @@ struct MainView: View {
             ZStack(alignment: .bottom) {
                 TabView(selection: $currentPage) {
                 
+                    
+                    
                     HomePageView(profile: exampleProfile)
                         .tag( MainPage.home )
                     
@@ -46,7 +48,7 @@ struct MainView: View {
                 
                 TabBar(pageSelection: $currentPage)
                     .padding(.bottom, 30)
-                
+            
             }
         }
         .universalBackground()

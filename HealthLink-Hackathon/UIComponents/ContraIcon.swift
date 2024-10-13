@@ -7,20 +7,31 @@
 
 import Foundation
 import SwiftUI
+import UIUniversals
 
 struct ContraIcon: View {
     
     let icon: String
     let bold: Bool
     
-    init( _ icon: String, bold: Bool = true ) {
+    let action: (() -> Void)?
+    
+    init( _ icon: String, bold: Bool = true, action: (() -> Void)? = nil) {
         self.icon = icon
         self.bold = bold
+        self.action = action
     }
     
     var body: some View {
-        Image(systemName: icon)
-            .bold(bold)
+        if let action {
+            UniversalButton {
+                Image(systemName: icon)
+                    .bold(bold)
+                
+            } action: { action() }
+        } else {
+            Image(systemName: icon)
+                .bold(bold)
+        }
     }
-    
 }

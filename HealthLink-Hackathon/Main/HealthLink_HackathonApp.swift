@@ -32,8 +32,8 @@ struct HealthLink_HackathonApp: App {
         
 //        This registers all the fonts provided by UIUniversals
         FontProvider.registerFonts()
-        Constants.titleFont = FontProvider[.syneHeavy]
-        Constants.mainFont = FontProvider[.renoMono]
+//        Constants.titleFont = FontProvider[.syneHeavy]
+//        Constants.mainFont = FontProvider[.renoMono]
         
         UITabBar.appearance().isHidden = true
     }
@@ -43,7 +43,7 @@ struct HealthLink_HackathonApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainView()
+            ContraView()
         }
     }
 }
