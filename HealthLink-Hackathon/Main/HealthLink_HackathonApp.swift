@@ -16,8 +16,8 @@ struct HealthLink_HackathonApp: App {
                          secondaryLight:    .init(240, 240, 238),
                          baseDark:          .init(0, 0, 0),
                          secondaryDark:     .init(27.5, 27.5, 25.5),
-                         lightAccent:       .init(130, 130, 100),
-                         darkAccent:        .init(178, 196, 128),
+                         lightAccent:       .init(219, 206, 171),
+                         darkAccent:        .init(148, 166, 151),
                          matchDefaults: true)
         
         Constants.UIDefaultCornerRadius = 20

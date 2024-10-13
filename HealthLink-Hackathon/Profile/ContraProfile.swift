@@ -34,7 +34,7 @@ let exampleProfile = ContraProfile(schedule: schedule,
                                    firstTimeUser: true)
 
 //MARK: ContraProfile
-class ContraProfile {
+class ContraProfile: ObservableObject {
     
     let ownerId: String = ""
     
@@ -52,15 +52,36 @@ class ContraProfile {
     
     let schedule: ContraUserSchedule
     
-    let recommendedProducts: [ContraProduct] = [IUD, pillA, pillB, cep]
-    let activeProducts: [ContraProduct] = [pillA, pillB]
+//    IUD, pillA, pillB, cep
+    let recommendedProducts: [ContraRecommendation] = [
+        .init(product: IUD, justification: "its good"),
+        .init(product: pillA, justification: "its good"),
+        .init(product: pillB, justification: "its good"),
+        .init(product: cep, justification: "its good"),
+    ]
+    @Published var activeProducts: [ContraProduct] = []
+//    [pillA, pillB]
     
-    var filteredRecommendedProducts: [ContraProduct] {
-        recommendedProducts.filter { product in
-            !activeProducts.contains { activeProduct in activeProduct.name == product.name }
+//    MARK: Convenience
+    var filteredRecommendedProducts: [ContraRecommendation] {
+        recommendedProducts.filter { rec in
+            !activeProducts.contains { activeProduct in activeProduct.name == rec.product.name }
         }
     }
     
+    func isUsingProduct(_ product: ContraProduct) -> Bool {
+        activeProducts.contains { activeProduct in activeProduct.name == product.name }
+    }
+    
+    func isRecommendedProduct(_ product: ContraProduct) -> Bool {
+        recommendedProducts.contains { rec in rec.product.name == product.name }
+    }
+    
+    func getRecommendation( for product: ContraProduct ) -> ContraRecommendation? {
+        recommendedProducts.first { rec in rec.product.name == product.name }
+    }
+    
+//    MARK: Init
     init( schedule: ContraUserSchedule,
           firstName: String,
           lastName: String,
@@ -80,7 +101,12 @@ class ContraProfile {
         self.state = state
         self.firstTimeUser = firstTimeUser
     }
+    
+    func addProduct( _ product: ContraProduct ) {
+        self.activeProducts.append( product )
+    }
 }
+
 
 
 //MARK: ContraUserSchedule
@@ -113,4 +139,11 @@ struct ContraEntryNode {
         self.product = product
         self.notes = notes
     }
+}
+
+//MARK: ContraRecommendation
+struct ContraRecommendation {
+    let recommendationDate: Date = .now
+    let product: ContraProduct
+    let justification: String
 }

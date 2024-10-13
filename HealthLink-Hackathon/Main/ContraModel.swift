@@ -12,7 +12,7 @@ class ContraModel: ObservableObject {
     
     static let shared = ContraModel()
     
-    @Published private(set) var appState = AppState.questionaire
+    @Published private(set) var appState = AppState.main
     
     enum AppState {
         case questionaire

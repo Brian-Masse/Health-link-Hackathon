@@ -12,16 +12,18 @@ import UIUniversals
 //MARK: HomePageView
 struct HomePageView: View {
     
-    let profile: ContraProfile
+    @ObservedObject var profile: ContraProfile
+    
+    @State private var activeProduct: ContraProduct? = nil
     
     
 //    MARK: Product Reccomendation
     @ViewBuilder
-    private func makeProductRecommendation(_ product: ContraProduct, activeProduct: Bool = false) -> some View {
+    private func makeProductRecommendation(_ product: ContraProduct, description: String, activeProduct: Bool = false) -> some View {
         
         HStack {
             
-            Image(systemName: "pills.circle")
+            Image(systemName: product.icon)
                 .font(.title)
             
             VStack(alignment: .leading) {
@@ -29,37 +31,48 @@ struct HomePageView: View {
                     .font(.title3)
                     .bold()
                 
-                Text(product.description)
+                Text(description)
+                    .font(.callout)
+                    .opacity(0.75)
+                    .lineLimit(3)
                 
             }
             Spacer()
+            
+            if !activeProduct {
+                ContraIcon("plus")
+                    .onTapGesture { withAnimation { profile.addProduct(product) }}
+            }
         }
         .rectangularBackground(style: activeProduct ? .accent : .secondary)
+        .onTapGesture { self.activeProduct = product }
     }
     
     @ViewBuilder
     private func makeProductRecommendations() -> some View {
         
         VStack (alignment: .leading) {
-            
-            Text( "My products" )
-                .bold()
-            
-            ForEach( 0..<profile.activeProducts.count, id: \.self ) { i in
-                let product = profile.recommendedProducts[i]
+            if profile.activeProducts.count == 0 {
+                Text( "Recommended Products" )
+                    .bold()
                 
-                makeProductRecommendation(product, activeProduct: true)
-            }
-            
-            Text( "Recommended Products" )
-                .bold()
-            
-            ForEach( 0..<profile.filteredRecommendedProducts.count, id: \.self ) { i in
                 
-                let product = profile.recommendedProducts[i]
+                ForEach( 0..<profile.filteredRecommendedProducts.count, id: \.self ) { i in
+                    
+                    let rec = profile.recommendedProducts[i]
+                    
+                    makeProductRecommendation(rec.product, description: rec.justification)
+                }
+            } else {
                 
-                makeProductRecommendation(product)
+                Text( "My products" )
+                    .bold()
                 
+                ForEach( 0..<profile.activeProducts.count, id: \.self ) { i in
+                    let product = profile.activeProducts[i]
+                    
+                    makeProductRecommendation(product, description: product.description, activeProduct: true)
+                }
             }
         }
     }
@@ -71,13 +84,16 @@ struct HomePageView: View {
             
             Image(systemName: "calendar")
                 
-            Text("\(product.name)")
-                .bold()
-                .font(.title3)
+            VStack(alignment: .leading) {
+                Text("\(product.name)")
+                    .bold()
+                    .font(.title3)
+                
+                Text("\(date.formatted(date: .abbreviated, time: .omitted))")
+            }
             
             Spacer()
             
-            Text("\(date.formatted(date: .abbreviated, time: .omitted))")
         }.padding(.horizontal)
     }
     
@@ -129,19 +145,21 @@ struct HomePageView: View {
 //    MARK: Entry Record
     @ViewBuilder
     private func makeEntryRecor( _ entry: ContraEntryNode ) -> some View {
-        VStack(alignment: .leading) {
-            HStack {
-                Image(systemName: "calendar.day.timeline.left")
+        HStack {
+            Image(systemName: "calendar.day.timeline.left")
+            
+            VStack(alignment: .leading) {
                 
                 Text("\(entry.product.name)")
+                    .bold()
+                Text(entry.date.formatted(date: .numeric, time: .omitted))
+                    .padding(.bottom, 7)
                 
-                Spacer()
+                Text(entry.notes)
+                    .opacity(0.75)
             }
             
-            Text(entry.date.formatted(date: .numeric, time: .omitted))
-            
-            Text(entry.notes)
-                .opacity(0.75)
+            Spacer()
         }
         .rectangularBackground(style: .secondary)
     }
@@ -169,7 +187,7 @@ struct HomePageView: View {
                 .font(.title)
                 .padding(.bottom, 7)
        
-            ScrollView(.vertical) {
+            ScrollView(.vertical, showsIndicators: false) {
                 makeProductRecommendations()
                     .padding(.bottom)
                 
@@ -181,6 +199,8 @@ struct HomePageView: View {
             Spacer()
         }
         .padding()
+        .sheet(item: $activeProduct) { product in ContraProductView(product: product, profile: profile) }
+        .ignoresSafeArea(edges: .bottom)
     }
 }
 
