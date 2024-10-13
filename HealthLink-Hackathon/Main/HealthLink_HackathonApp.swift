@@ -16,7 +16,7 @@ struct HealthLink_HackathonApp: App {
                          secondaryLight:    .init(240, 240, 238),
                          baseDark:          .init(0, 0, 0),
                          secondaryDark:     .init(27.5, 27.5, 25.5),
-                         lightAccent:       .init(219, 206, 171),
+                         lightAccent:       .init(65, 82, 79),
                          darkAccent:        .init(148, 166, 151),
                          matchDefaults: true)
         

@@ -197,13 +197,14 @@ struct HomePageView: View {
                     
                     makeEntryRecords()
                 }
-                .padding(.bottom, 80)
+                .padding(.bottom, 100)
             }
             
             Spacer()
         }
         .padding()
         .sheet(item: $activeProduct) { product in ContraProductView(product: product, profile: profile) }
+        .contraBackgorund()
         .ignoresSafeArea(edges: .bottom)
     }
 }

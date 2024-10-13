@@ -18,8 +18,19 @@ struct SocialPageView: View {
             Text("Social")
                 .font(.title)
                 .bold()
-            
+         
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack {
+                    SocialDataView(ratings: productRatings)
+                        .padding(.bottom)
+                    
+                    SocialFormView()
+                }
+                .padding(.bottom, 100)
+            }
         }
+        .padding()
+        .contraBackgorund()
     }
 }
 

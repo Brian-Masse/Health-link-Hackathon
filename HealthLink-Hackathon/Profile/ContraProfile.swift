@@ -18,7 +18,7 @@ func makeBirthday() -> Date {
     var comps = DateComponents()
     comps.day = 18
     comps.month = 5
-    comps.year = 2004
+    comps.year = Int.random(in: 1960...2005)
     
     return Calendar.current.date(from: comps)!
     
@@ -33,10 +33,38 @@ let exampleProfile = ContraProfile(schedule: schedule,
                                    state: "Massachusetts",
                                    firstTimeUser: true)
 
+let exampleProfile1 = ContraProfile(schedule: schedule,
+                                   firstName: "Tina ",
+                                   lastName: "Dormier",
+                                   birthday: makeBirthday(),
+                                   height: 60,
+                                   ethnicity: ["black"],
+                                   state: "Texas",
+                                   firstTimeUser: true)
+
+let exampleProfile2 = ContraProfile(schedule: schedule,
+                                   firstName: "Caroline ",
+                                   lastName: "Zheng",
+                                   birthday: makeBirthday(),
+                                   height: 60,
+                                   ethnicity: ["Native American"],
+                                   state: "California",
+                                   firstTimeUser: true)
+
+let exampleProfile3 = ContraProfile(schedule: schedule,
+                                   firstName: "Phoebe ",
+                                   lastName: "D",
+                                   birthday: makeBirthday(),
+                                   height: 60,
+                                   ethnicity: ["Indian"],
+                                   state: "Arizona",
+                                   firstTimeUser: true)
+
 //MARK: ContraProfile
 class ContraProfile: ObservableObject {
     
     let ownerId: String = ""
+    let dateJoined: Date = .now - Constants.DayTime * Double.random(in: 2...100)
     
     let firstName: String
     let lastName: String
@@ -78,6 +106,10 @@ class ContraProfile: ObservableObject {
     
     func getRecommendation( for product: ContraProduct ) -> ContraRecommendation? {
         recommendedProducts.first { rec in rec.product.name == product.name }
+    }
+    
+    var age: Int {
+        Int(abs(birthday.timeIntervalSince(.now)) / (Constants.DayTime * 365))
     }
     
 //    MARK: Init

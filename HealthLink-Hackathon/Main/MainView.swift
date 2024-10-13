@@ -51,7 +51,6 @@ struct MainView: View {
             
             }
         }
-        .universalBackground()
     }
 }
 
